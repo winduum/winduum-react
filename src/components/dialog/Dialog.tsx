@@ -1,26 +1,32 @@
-import { forwardRef } from "react"
-import classNames from "classnames"
-import {
-	showDialog,
-	closeDialog,
-	DefaultOptions,
-} from "winduum/src/components/dialog"
+import { forwardRef, ElementRef, MutableRefObject, ReactNode } from 'react'
+import classNames from 'classnames'
+import { showDialog, closeDialog, DefaultOptions } from 'winduum/src/components/dialog'
 
-const Dialog = forwardRef((props, forwardedRef) => {
-	forwardedRef.show = async (options: DefaultOptions) => {
-		await showDialog(forwardedRef.current, options)
-	}
+interface DialogMethods extends MutableRefObject<ElementRef<'dialog'>> {
+	show: (options?: DefaultOptions) => Promise<void>
+	close: (options?: DefaultOptions) => Promise<void>
+}
 
-	forwardedRef.close = async (options: DefaultOptions) => {
-		await closeDialog(forwardedRef.current, options)
+interface DialogProps {
+	className?: string
+	children: ReactNode
+}
+
+const Dialog = forwardRef<ElementRef<'dialog'>, DialogProps>((props, forwardedRef) => {
+	if (forwardedRef) {
+		const ref = forwardedRef as DialogMethods
+
+		ref.show = async (options?: DefaultOptions): Promise<void> => {
+			await showDialog(ref.current, options)
+		}
+
+		ref.close = async (options?: DefaultOptions): Promise<void> => {
+			await closeDialog(ref.current, options)
+		}
 	}
 
 	return (
-		<dialog
-			{...props}
-			className={classNames("c-dialog", props.className)}
-			ref={forwardedRef}
-		>
+		<dialog {...props} className={classNames("c-dialog", props.className)} ref={forwardedRef}>
 			{props.children}
 		</dialog>
 	)

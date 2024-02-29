@@ -39,12 +39,12 @@ function App() {
 							<svg
 								fill="none"
 								viewBox="0 0 24 24"
-								stroke-width="2"
+								strokeWidth="2"
 								stroke="currentColor"
 							>
 								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
+									strokeLinecap="round"
+									strokeLinejoin="round"
 									d="M6 18 18 6M6 6l12 12"
 								/>
 							</svg>

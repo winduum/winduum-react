@@ -1,4 +1,4 @@
-import { HTMLProps } from "react"
+import { createRef, HTMLProps } from "react"
 import { Slot } from "@radix-ui/react-slot"
 import classNames from "classnames"
 
@@ -8,10 +8,11 @@ interface Props extends HTMLProps<any> {
 }
 
 export default function Tooltip(props: Props) {
+	const ref = createRef<HTMLElement>()
 	const Comp = props.asChild ? Slot : props.as ?? "button"
 
 	return (
-		<Comp {...props} className={classNames("ui-btn", props.className)}>
+		<Comp {...props} className={classNames("ui-btn", props.className)} ref={ref}>
 			{props.children}
 		</Comp>
 	)

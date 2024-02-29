@@ -1,18 +1,21 @@
-import { HTMLProps } from 'react'
-import { Slot } from '@radix-ui/react-slot'
-import classNames from 'classnames'
+import { HTMLProps } from "react"
+import { Slot } from "@radix-ui/react-slot"
+import classNames from "classnames"
 
 interface Props extends HTMLProps<any> {
-    asChild?: boolean
-    as?: string
+	asChild?: boolean;
+	as?: string;
 }
 
-export default function DialogContent (props: Props) {
-    const Comp = props.asChild ? Slot : props.as ?? 'div'
+export default function DialogContent(props: Props) {
+	const Comp = props.asChild ? Slot : props.as ?? "div"
 
-    return (
-        <Comp {...props} className={classNames('c-dialog-content', props.className)}>
-            {props.children}
-        </Comp>
-    )
+	return (
+		<Comp
+			{...props}
+			className={classNames("c-dialog-content", props.className)}
+		>
+			{props.children}
+		</Comp>
+	)
 }

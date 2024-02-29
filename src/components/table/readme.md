@@ -1,4 +1,4 @@
-# [Tooltip](https://winduum.dev/docs/components/table.html)
+# [Table](https://winduum.dev/docs/components/table.html)
 
 ## Installation
 You can copy and paste the components in this directory to your own project.

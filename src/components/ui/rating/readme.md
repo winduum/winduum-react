@@ -1,4 +1,4 @@
-# [Button](https://winduum.dev/docs/ui/rating.html)
+# [Rating](https://winduum.dev/docs/ui/rating.html)
 
 ## Installation
 You can copy and paste the components in this directory to your own project.

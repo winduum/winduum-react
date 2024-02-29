@@ -1,4 +1,4 @@
-# [Button](https://winduum.dev/docs/ui/link.html)
+# [Link](https://winduum.dev/docs/ui/link.html)
 
 ## Installation
 You can copy and paste the components in this directory to your own project.

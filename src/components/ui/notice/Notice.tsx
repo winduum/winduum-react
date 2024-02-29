@@ -9,10 +9,10 @@ interface Props extends HTMLProps<any> {
 
 export default function Notice(props: Props) {
 	const ref = createRef<HTMLElement>()
-	const Comp = props.asChild ? Slot : props.as ?? "a"
+	const Comp = props.asChild ? Slot : props.as ?? "div"
 
 	return (
-		<Comp {...props} className={classNames("ui-notice", props.className)} ref={ref}>
+		<Comp role="alert" {...props} className={classNames("ui-notice", props.className)} ref={ref}>
 			{props.children}
 		</Comp>
 	)

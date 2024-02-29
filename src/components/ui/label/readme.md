@@ -1,4 +1,4 @@
-# [Button](https://winduum.dev/docs/ui/label.html)
+# [Label](https://winduum.dev/docs/ui/label.html)
 
 ## Installation
 You can copy and paste the components in this directory to your own project.

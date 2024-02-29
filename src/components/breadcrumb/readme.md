@@ -1,4 +1,4 @@
-# [Tooltip](https://winduum.dev/docs/components/breadcrumb.html)
+# [Breadcrumb](https://winduum.dev/docs/components/breadcrumb.html)
 
 ## Installation
 You can copy and paste the components in this directory to your own project.

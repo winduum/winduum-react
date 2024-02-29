@@ -1,4 +1,4 @@
-# [Button](https://winduum.dev/docs/ui/notice.html)
+# [Notice](https://winduum.dev/docs/ui/notice.html)
 
 ## Installation
 You can copy and paste the components in this directory to your own project.

@@ -1,4 +1,4 @@
-# [Tooltip](https://winduum.dev/docs/components/field.html)
+# [Field](https://winduum.dev/docs/components/field.html)
 
 ## Installation
 You can copy and paste the components in this directory to your own project.

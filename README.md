@@ -6,7 +6,7 @@
 
 # 🎨 [Winduum React](https://winduum.dev)
 
-Ready to use components for React
+Ready to use components for React - [src/components](https://github.com/winduum/winduum-react/tree/main/src/components)
 
 ## Dependencies
 

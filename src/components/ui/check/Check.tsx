@@ -7,12 +7,12 @@ interface Props extends HTMLProps<any> {
 	as?: string
 }
 
-export default function Button(props: Props) {
+export default function Check(props: Props) {
 	const ref = createRef<HTMLElement>()
-	const Comp = props.asChild ? Slot : props.as ?? "button"
+	const Comp = props.asChild ? Slot : props.as ?? "div"
 
 	return (
-		<Comp {...props} className={classNames("ui-btn", props.className)} ref={ref}>
+		<Comp {...props} className={classNames("ui-check", props.className)} ref={ref}>
 			{props.children}
 		</Comp>
 	)

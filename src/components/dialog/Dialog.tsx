@@ -26,7 +26,7 @@ const Dialog = forwardRef<ElementRef<'dialog'>, DialogProps>((props, forwardedRe
 	}
 
 	return (
-		<dialog {...props} className={classNames("c-dialog", props.className)} ref={forwardedRef}>
+		<dialog {...props} className={classNames("x-dialog", props.className)} ref={forwardedRef}>
 			{props.children}
 		</dialog>
 	)

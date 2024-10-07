@@ -12,7 +12,7 @@ export default function Table(props: Props) {
 	const Comp = props.asChild ? Slot : props.as ?? "div"
 
 	return (
-		<Comp {...props} className={classNames("c-table", props.className)} ref={ref}>
+		<Comp {...props} className={classNames("x-table", props.className)} ref={ref}>
 			{props.children}
 		</Comp>
 	)

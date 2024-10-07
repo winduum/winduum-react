@@ -12,7 +12,7 @@ export default function Tooltip(props: Props) {
 	const Comp = props.asChild ? Slot : props.as ?? "div"
 
 	return (
-		<Comp {...props} className={classNames("c-popover", props.className)} ref={ref}>
+		<Comp {...props} className={classNames("x-popover", props.className)} ref={ref}>
 			{props.children}
 		</Comp>
 	)

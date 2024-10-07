@@ -12,7 +12,7 @@ export default function Card(props: Props) {
 	const Comp = props.asChild ? Slot : props.as ?? "div"
 
 	return (
-		<Comp {...props} className={classNames("c-card", props.className)} ref={ref}>
+		<Comp {...props} className={classNames("x-card", props.className)} ref={ref}>
 			{props.children}
 		</Comp>
 	)

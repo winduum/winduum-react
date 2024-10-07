@@ -12,7 +12,7 @@ export default function Breadcrumb(props: Props) {
 	const Comp = props.asChild ? Slot : props.as ?? "nav"
 
 	return (
-		<Comp aria-label="breadcrumb" {...props} className={classNames("c-breadcrumb", props.className)} ref={ref}>
+		<Comp aria-label="breadcrumb" {...props} className={classNames("x-breadcrumb", props.className)} ref={ref}>
 			{props.children}
 		</Comp>
 	)

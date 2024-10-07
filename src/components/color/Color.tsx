@@ -7,12 +7,12 @@ interface Props extends HTMLProps<any> {
 	as?: string
 }
 
-export default function Field(props: Props) {
+export default function Color(props: Props) {
 	const ref = createRef<HTMLElement>()
 	const Comp = props.asChild ? Slot : props.as ?? "div"
 
 	return (
-		<Comp {...props} className={classNames("x-field", props.className)} ref={ref}>
+		<Comp {...props} className={classNames("x-color", props.className)} ref={ref}>
 			{props.children}
 		</Comp>
 	)

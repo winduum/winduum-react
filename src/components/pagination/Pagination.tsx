@@ -12,7 +12,7 @@ export default function Pagination(props: Props) {
 	const Comp = props.asChild ? Slot : props.as ?? "nav"
 
 	return (
-		<Comp aria-label="pagination" {...props} className={classNames("c-pagination", props.className)} ref={ref}>
+		<Comp aria-label="pagination" {...props} className={classNames("x-pagination", props.className)} ref={ref}>
 			{props.children}
 		</Comp>
 	)

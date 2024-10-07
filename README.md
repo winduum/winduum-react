@@ -12,7 +12,7 @@ Ready to use components for React - [src/components](https://github.com/winduum/
 
 ```json
 {
-  "winduum": "^1",
+  "winduum": "^2",
   "@radix-ui/react-slot": "^1",
   "classnames": "^2",
   "react": "^18",

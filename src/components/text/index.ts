@@ -1,1 +1,1 @@
-export { default as Title } from './Title.tsx'
+export { default as Text } from './Text.tsx'

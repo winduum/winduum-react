@@ -1,1 +1,1 @@
-export { default as Tooltip } from './Pagination.tsx'
+export { default as Pagination } from './Pagination.tsx'

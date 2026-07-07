@@ -5,6 +5,8 @@ import classNames from "classnames"
 interface Props extends HTMLProps<any> {
 	asChild?: boolean
 	as?: string
+	command?: string
+	commandfor?: string
 }
 
 export default function Button(props: Props) {

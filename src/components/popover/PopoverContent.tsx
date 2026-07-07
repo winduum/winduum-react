@@ -1,4 +1,4 @@
-import { createRef, HTMLProps } from "react"
+import { HTMLProps } from "react"
 import { Slot } from "@radix-ui/react-slot"
 import classNames from "classnames"
 
@@ -8,11 +8,13 @@ interface Props extends HTMLProps<any> {
 }
 
 export default function PopoverContent(props: Props) {
-	const ref = createRef<HTMLElement>()
-	const Comp = props.asChild ? Slot : props.as ?? "div"
+	const Comp = props.asChild ? Slot : (props.as ?? "div")
 
 	return (
-		<Comp {...props} className={classNames("x-popover-content", props.className)} ref={ref}>
+		<Comp
+			{...props}
+			className={classNames("x-popover-content", props.className)}
+		>
 			{props.children}
 		</Comp>
 	)

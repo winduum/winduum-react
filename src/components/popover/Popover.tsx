@@ -1,28 +1,38 @@
 import { HTMLProps, useEffect, useRef } from "react"
 import { Slot } from "@radix-ui/react-slot"
 import classNames from "classnames"
+import {
+	supportsAnchor,
+	supportsAnchoredContainer,
+} from "winduum/src/common.js"
+import type { ComputePositionConfig, Placement } from "@floating-ui/dom"
 
-type PopoverOptions = boolean | Record<string, unknown>
-const supportsAnchor = CSS.supports("anchor-name", "--")
-const supportsAnchoredContainer = CSS.supports("container-type: anchored")
+const nativeShowPopover = HTMLElement.prototype.showPopover as (
+	this: HTMLElement,
+	options?: { source?: HTMLElement },
+) => void
+const nativeHidePopover = HTMLElement.prototype.hidePopover
 
 interface Props extends HTMLProps<any> {
 	asChild?: boolean
 	as?: string
-	autoUpdate?: PopoverOptions
-	placement?: string
+	autoUpdate?: boolean | ComputePositionConfig
+	placement?: Placement
 }
 
-export default function Popover({ autoUpdate, placement = "bottom", ...props }: Props) {
+export default function Popover({
+	autoUpdate,
+	placement = "bottom",
+	...props
+}: Props) {
 	const ref = useRef<HTMLElement>(null)
-	const Comp = props.asChild ? Slot : props.as ?? "div"
+	const Comp = props.asChild ? Slot : (props.as ?? "div")
 
 	useEffect(() => {
 		const popoverElement = ref.current
 
 		if (!popoverElement) return
 
-		let open = false
 		let sourceElement: HTMLElement | undefined
 		let cleanup: (() => void) | undefined
 
@@ -31,50 +41,58 @@ export default function Popover({ autoUpdate, placement = "bottom", ...props }: 
 
 			sourceElement = source
 
-			if (source && ((autoUpdate && !supportsAnchoredContainer) || !supportsAnchor)) {
-				const { autoUpdatePopover } = await import("winduum/src/components/popover/index.js")
+			if (
+				source &&
+				((autoUpdate && !supportsAnchoredContainer) || !supportsAnchor)
+			) {
+				const { autoUpdatePopover } = await import(
+					"winduum/src/components/popover/index.js"
+				)
 
-				cleanup = await autoUpdatePopover(source, popoverElement, placement as never, autoUpdate as never)
+				cleanup = await autoUpdatePopover(
+					source,
+					popoverElement,
+					placement,
+					autoUpdate,
+				)
 			}
 
-			;(HTMLElement.prototype.showPopover as (this: HTMLElement, options?: { source?: HTMLElement }) => void).call(popoverElement, options)
+			nativeShowPopover.call(popoverElement, options)
 		}
 
 		const hidePopover = () => {
 			cleanup?.()
 			cleanup = undefined
 
-			;(HTMLElement.prototype.hidePopover as (this: HTMLElement) => void).call(popoverElement)
+			nativeHidePopover.call(popoverElement)
 		}
 
 		const togglePopover = (options?: { source?: HTMLElement }) => {
-			!open
-				? void showPopover(options)
-				: hidePopover()
+			popoverElement.matches(":popover-open")
+				? hidePopover()
+				: void showPopover(options)
 		}
 
 		const onToggle = (event: ToggleEvent) => {
-			open = event.newState === "open"
-
-			if (sourceElement?.ariaExpanded) sourceElement.ariaExpanded = `${open}`
+			if (sourceElement?.ariaExpanded)
+				sourceElement.ariaExpanded = `${event.newState === "open"}`
 		}
 
-		;(popoverElement as any).showPopover = showPopover
-		;(popoverElement as any).hidePopover = hidePopover
-		;(popoverElement as any).togglePopover = togglePopover
+		Object.assign(popoverElement, { showPopover, hidePopover, togglePopover })
 		popoverElement.addEventListener("toggle", onToggle)
 
 		return () => {
 			cleanup?.()
-			delete (popoverElement as Partial<HTMLElement>).showPopover
-			delete (popoverElement as Partial<HTMLElement>).hidePopover
-			delete (popoverElement as Partial<HTMLElement>).togglePopover
 			popoverElement.removeEventListener("toggle", onToggle)
 		}
 	}, [autoUpdate, placement])
 
 	return (
-		<Comp {...props} className={classNames("x-popover", props.className)} ref={ref}>
+		<Comp
+			{...props}
+			className={classNames("x-popover", props.className)}
+			ref={ref}
+		>
 			{props.children}
 		</Comp>
 	)

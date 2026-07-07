@@ -5,17 +5,14 @@ import classNames from "classnames"
 interface Props extends HTMLProps<any> {
 	asChild?: boolean
 	as?: string
-	command?: string
-	commandfor?: string
-	interestfor?: string
 }
 
-export default function Button(props: Props) {
+export default function Marquee(props: Props) {
 	const ref = createRef<HTMLElement>()
-	const Comp = props.asChild ? Slot : props.as ?? "button"
+	const Comp = props.asChild ? Slot : props.as ?? "div"
 
 	return (
-		<Comp {...props} className={classNames("x-button", props.className)} ref={ref}>
+		<Comp {...props} className={classNames("x-marquee", props.className)} ref={ref}>
 			{props.children}
 		</Comp>
 	)

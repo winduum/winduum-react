@@ -7,7 +7,7 @@ interface Props extends HTMLProps<any> {
 	as?: string
 }
 
-export default function Tooltip(props: Props) {
+export default function PopoverContent(props: Props) {
 	const ref = createRef<HTMLElement>()
 	const Comp = props.asChild ? Slot : props.as ?? "div"
 

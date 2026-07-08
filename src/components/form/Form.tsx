@@ -11,13 +11,13 @@ interface Props extends Omit<HTMLProps<HTMLFormElement>, "onSubmit"> {
 export default function Form({ validateOptions, ...props }: Props) {
 	const ref = createRef<HTMLFormElement>()
 
-	const validate = (event: SubmitEvent<HTMLFormElement>) => {
+	const onSubmit = (event: SubmitEvent<HTMLFormElement>) => {
 		props.onSubmit?.(event)
 		validateForm(event.nativeEvent, validateOptions)
 	}
 
 	return (
-		<form {...props} className={classNames("x-form", props.className)} ref={ref} noValidate={props.noValidate ?? true} onSubmit={validate}>
+		<form {...props} className={classNames("x-form", props.className)} ref={ref} noValidate={props.noValidate ?? true} onSubmit={onSubmit}>
 			{props.children}
 		</form>
 	)

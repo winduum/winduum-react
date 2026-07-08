@@ -14,13 +14,13 @@ export default function Field({ validateOptions, ...props }: Props) {
 	const ref = createRef<HTMLElement>()
 	const Comp = props.asChild ? Slot : props.as ?? "div"
 
-	const validate = (event: FormEvent<HTMLElement>) => {
+	const onChange = (event: FormEvent<HTMLElement>) => {
 		props.onChange?.(event)
 		validateField(event.currentTarget, validateOptions)
 	}
 
 	return (
-		<Comp {...props} className={classNames("x-field", props.className)} ref={ref} onChange={validate}>
+		<Comp {...props} className={classNames("x-field", props.className)} ref={ref} onChange={onChange}>
 			{props.children}
 		</Comp>
 	)

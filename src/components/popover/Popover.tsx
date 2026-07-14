@@ -1,11 +1,12 @@
-import { HTMLProps, useEffect, useRef } from "react"
+import type { ComputePositionConfig, Placement } from "@floating-ui/dom"
 import { Slot } from "@radix-ui/react-slot"
 import classNames from "classnames"
+import { type HTMLProps, useEffect, useRef } from "react"
 import {
 	supportsAnchor,
 	supportsAnchoredContainer,
 } from "winduum/src/common.js"
-import type { ComputePositionConfig, Placement } from "@floating-ui/dom"
+import { onCommand } from "../../index.js"
 
 const nativeShowPopover = HTMLElement.prototype.showPopover as (
 	this: HTMLElement,
@@ -80,10 +81,12 @@ export default function Popover({
 
 		Object.assign(popoverElement, { showPopover, hidePopover, togglePopover })
 		popoverElement.addEventListener("toggle", onToggle)
+		popoverElement.addEventListener("command", onCommand)
 
 		return () => {
 			cleanup?.()
 			popoverElement.removeEventListener("toggle", onToggle)
+			popoverElement.removeEventListener("command", onCommand)
 		}
 	}, [autoUpdate, placement])
 

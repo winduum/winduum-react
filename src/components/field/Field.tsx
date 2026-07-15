@@ -1,8 +1,8 @@
 import { createRef, FormEvent, HTMLProps } from "react"
 import { Slot } from "@radix-ui/react-slot"
 import classNames from "classnames"
-import type { ValidateFieldOptions } from "winduum/src/components/form"
-import { validateField } from "winduum/src/components/form"
+import type { ValidateFieldOptions } from "winduum/src/components/field"
+import { validateField } from "winduum/src/components/field"
 
 interface Props extends HTMLProps<any> {
 	asChild?: boolean

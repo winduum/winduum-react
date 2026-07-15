@@ -5,4 +5,4 @@
 npm i winduum-react
 ```
 
-Follow the installation instruction at [winduum/winduum](https://github.com/winduum/winduum/tree/main/src/components/carousel)
+Follow the installation instructions at [winduum/winduum](https://github.com/winduum/winduum/tree/next/src/components/carousel).

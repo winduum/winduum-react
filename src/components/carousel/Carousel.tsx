@@ -1,77 +1,84 @@
-import { HTMLProps, MouseEvent, ReactNode, RefObject, useEffect } from "react"
+import { HTMLProps, ReactNode, RefObject, UIEvent, useEffect, useRef } from "react"
 import { Slot } from "@radix-ui/react-slot"
 import classNames from "classnames"
+import type { ScrollCarouselOptions } from "winduum/src/components/carousel"
+import { observeCarousel, scrollCarousel } from "winduum/src/components/carousel/index.js"
 
 export interface CarouselSlotProps {
 	scrollPrev: () => void
 	scrollNext: () => void
-	toggleScrollState: () => void
-	scrollToMarker: (event: MouseEvent<HTMLElement>) => void
+	setScrollPos: () => void
+	scrollCarousel: typeof scrollCarousel
+	onScroll: (event: UIEvent<HTMLElement>, options?: ScrollCarouselOptions) => void
 }
 
 interface Props extends Omit<HTMLProps<any>, "children"> {
 	asChild?: boolean
 	as?: string
-	vertical?: boolean
 	refs?: {
 		contentElement?: RefObject<HTMLElement | null>
-		markerGroupElement?: RefObject<HTMLElement | null>
 		prevElement?: RefObject<HTMLButtonElement | null>
 		nextElement?: RefObject<HTMLButtonElement | null>
+		paginationElement?: RefObject<HTMLElement | null>
 	}
 	children?: ReactNode | ((props: CarouselSlotProps) => ReactNode)
 }
 
-export default function Carousel({ vertical, refs, children, ...props }: Props) {
-	const Comp = props.asChild ? Slot : props.as ?? "div"
+export default function Carousel({ asChild, as, className, refs, children, ...props }: Props) {
+	const rootElement = useRef<HTMLElement>(null)
+	const Comp = asChild ? Slot : as ?? "div"
 
-	const scroll = async (direction: number) => {
-		const { scrollBy } = await import("winduum/src/components/carousel")
+	const scrollPrev = () => {
+		const contentElement = refs?.contentElement?.current
+		const itemElement = contentElement?.children[0] as HTMLElement | undefined
 
-		scrollBy(refs!.contentElement!.current!, { direction, vertical })
+		contentElement?.scroll({ left: contentElement.scrollLeft - (itemElement?.offsetWidth ?? 0) })
 	}
 
-	const scrollPrev = () => scroll(-1)
-	const scrollNext = () => scroll(1)
+	const scrollNext = () => {
+		const contentElement = refs?.contentElement?.current
+		const itemElement = contentElement?.children[0] as HTMLElement | undefined
 
-	const toggleScrollState = async () => {
-		const { toggleScrollState } = await import("winduum/src/components/carousel")
-
-		toggleScrollState(refs!.contentElement!.current!, {
-			prevElement: refs?.prevElement?.current,
-			nextElement: refs?.nextElement?.current,
-			vertical,
-		})
+		contentElement?.scroll({ left: contentElement.scrollLeft + (itemElement?.offsetWidth ?? 0) })
 	}
 
-	const scrollToMarker = async (event: MouseEvent<HTMLElement>) => {
-		event.preventDefault()
+	const setScrollPos = () => {
+		const contentElement = refs?.contentElement?.current
+		const maxScrollLeft = (contentElement?.scrollWidth ?? 0) - (contentElement?.clientWidth ?? 0)
+		const scrollStart = (contentElement?.scrollLeft ?? 0) <= 0
+		const scrollEnd = (contentElement?.scrollLeft ?? 0) >= maxScrollLeft
 
-		const target = event.currentTarget
-		const { scrollToMarker } = await import("winduum/src/components/carousel")
+		if (refs?.prevElement?.current && refs?.nextElement?.current) {
+			refs.prevElement.current.disabled = scrollStart
+			refs.nextElement.current.disabled = scrollEnd
+		}
 
-		scrollToMarker(refs!.contentElement!.current!, target, refs!.markerGroupElement!.current!, vertical ? { block: "start" } : {})
+		rootElement.current?.toggleAttribute("data-scroll-start", scrollStart)
+		rootElement.current?.toggleAttribute("data-scroll-end", scrollEnd)
+		rootElement.current?.toggleAttribute("data-scroll-none", maxScrollLeft === 0)
+	}
+
+	const onScroll = (event: UIEvent<HTMLElement>, options?: ScrollCarouselOptions) => {
+		scrollCarousel(event.currentTarget, options)
+		setScrollPos()
 	}
 
 	useEffect(() => {
-		const abortController = new AbortController()
+		const contentElement = refs?.contentElement?.current
 
-		refs?.contentElement?.current?.addEventListener(
-			"scrollsnapchanging",
-			async (event: any) => {
-				const { setSnappedAttribute } = await import("winduum/src/components/carousel")
+		if (!contentElement) return
 
-				setSnappedAttribute(refs.contentElement!.current!, event.snapTargetInline ?? event.snapTargetBlock, refs?.markerGroupElement?.current)
-			},
-			{ signal: abortController.signal },
-		)
+		const observer = observeCarousel(contentElement)
 
-		return () => abortController.abort()
-	}, [refs?.contentElement, refs?.markerGroupElement])
+		scrollCarousel(contentElement)
+		setScrollPos()
+
+		return () => observer.disconnect()
+	}, [refs?.contentElement, refs?.prevElement, refs?.nextElement])
 
 	return (
-		<Comp {...props} className={classNames("x-carousel", props.className)}>
-			{typeof children === "function" ? children({ scrollPrev, scrollNext, toggleScrollState, scrollToMarker }) : children}
+		<Comp {...props} className={classNames("x-carousel", className)} ref={rootElement}>
+			{typeof children === "function" ? children({ scrollPrev, scrollNext, setScrollPos, scrollCarousel, onScroll }) : children}
 		</Comp>
 	)
 }

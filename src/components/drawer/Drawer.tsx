@@ -1,7 +1,8 @@
+import classNames from "classnames"
 import type { DialogHTMLAttributes, RefObject } from "react"
 import { useEffect, useRef } from "react"
-import classNames from "classnames"
 import type { DrawerPlacement } from "winduum/src/components/drawer"
+import { onCommand } from "../../index.js"
 import "winduum/src/components/dialog"
 
 interface Props extends DialogHTMLAttributes<HTMLDialogElement> {
@@ -38,6 +39,9 @@ export default function Drawer({ children, className, modal = true, placement = 
 		}
 
 		drawerElement.showModal = showModal
+		drawerElement.addEventListener("command", onCommand, {
+			signal: abortController.signal,
+		})
 
 		void import("winduum/src/components/drawer").then(({ drawerEvents, drawerObserver }) => {
 			if (abortController.signal.aborted) return

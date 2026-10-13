@@ -1,5 +1,20 @@
 # [Image](https://winduum.dev/docs/components/image.html)
 
 ## Installation
-You can copy and paste the components in this directory to your own project.
-Follow the installation instruction at [winduum/winduum](https://github.com/winduum/winduum/tree/main/src/components/image)
+By default, we recommend copying and pasting the code from this directory to your project and remapping the imports to local.
+
+```js
+import { Image } from '@/components/ui/image'
+```
+### NPM
+Alternatively, you can also import directly from `npm` so you can leverage updates.
+```shell
+npm i winduum-react
+```
+
+```js
+import { Image } from 'winduum-react/src/components/image'
+```
+
+### Docs
+Visit [docs](https://winduum.dev/docs/components/image.html) to learn more and see usage examples.

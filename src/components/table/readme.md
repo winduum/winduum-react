@@ -1,5 +1,20 @@
 # [Table](https://winduum.dev/docs/components/table.html)
 
 ## Installation
-You can copy and paste the components in this directory to your own project.
-Follow the installation instruction at [winduum/winduum](https://github.com/winduum/winduum/tree/main/src/components/table)
+By default, we recommend copying and pasting the code from this directory to your project and remapping the imports to local.
+
+```js
+import { Table } from '@/components/ui/table'
+```
+### NPM
+Alternatively, you can also import directly from `npm` so you can leverage updates.
+```shell
+npm i winduum-react
+```
+
+```js
+import { Table } from 'winduum-react/src/components/table'
+```
+
+### Docs
+Visit [docs](https://winduum.dev/docs/components/table.html) to learn more and see usage examples.
